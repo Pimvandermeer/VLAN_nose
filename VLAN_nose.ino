@@ -1,3 +1,4 @@
+
 #include <SPI.h>
 #include <Ethernet.h>
 #include <ICMPPing.h> //Ethernet library moet hiervoor naar 1.1.2 niet compatible met 2.0.0!!
@@ -46,6 +47,7 @@ void setup() {
 
     // Open serial communications and wait for port to open:
     Serial.begin(9600);
+
     while (!Serial) {
       ; // wait for serial port to connect. Needed for native USB port only
     }
@@ -61,16 +63,17 @@ void setup() {
 
 
     if (Ethernet.begin(mac) == 0) {
-      Serial.println("Failed to configure Ethernet using DHCP");
-      lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print("Krijg geen DHCP");
-      lcd.setCursor(0, 1);
-      lcd.print("onbekend netwerk");
-      delay(1000);
-      while (true) {
-          delay(1);
-      }
+        Serial.println("Failed to configure Ethernet using DHCP");
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Krijg geen DHCP");
+        lcd.setCursor(0, 1);
+        lcd.print("Onbekend Netwerk");
+        delay(1000);
+
+        while (true) {
+            delay(1);
+        }
     }
 
     lcd.clear();
@@ -87,77 +90,76 @@ void setup() {
 }
 
 void loop() {
-  ICMPEchoReply echoReply = ping(pingAddr, 4);
-  if (echoReply.status == SUCCESS)
-  {
-    sprintf(buffer,
-            "Reply[%d] from: %d.%d.%d.%d: bytes=%d time=%ldms TTL=%d",
-            echoReply.data.seq,
-            echoReply.addr[0],
-            echoReply.addr[1],
-            echoReply.addr[2],
-            echoReply.addr[3],
-            REQ_DATASIZE,
-            millis() - echoReply.data.time,
-            echoReply.ttl);
-            if (changeScreen == 0) {
-                lcd.clear();
-                lcd.setCursor(0, 0);
-                lcd.print("Kan op internet!");
-                lcd.setCursor(0, 1);
-                lcd.print(Ethernet.localIP());
-                changeScreen = 1;
-                delay(4000);
-            } else if (changeScreen == 1) {
-                lcd.clear();
-                lcd.setCursor(0, 0);
-               // lcd.print(Ethernet.gatewayIP());
-                lcd.print("Gateway is: ");
-                lcd.setCursor(0, 1);
-                lcd.print(Ethernet.gatewayIP());
-                changeScreen = 2;
-                delay(2000);
-            } else if (changeScreen == 2) {
-                lcd.clear();
-                lcd.setCursor(0, 0);
-               // lcd.print(Ethernet.gatewayIP());
-                lcd.print("Subnetmask is ");
-                lcd.setCursor(0, 1);
-                lcd.print(Ethernet.subnetMask());
-                changeScreen = 0;
-                delay(2000);
-            }
-  }
-  else
-  {
-    sprintf(buffer, "Echo request failed; %d", echoReply.status);
-    if (changeScreen == 0) {
-                lcd.clear();
-                lcd.setCursor(0, 0);
-                lcd.print("Geen internet!");
-                lcd.setCursor(0, 1);
-                lcd.print(Ethernet.localIP());
-                changeScreen = 1;
-                delay(4000);
-            } else if (changeScreen == 1) {
-                lcd.clear();
-                lcd.setCursor(0, 0);
-               // lcd.print(Ethernet.gatewayIP());
-                lcd.print("Gateway is: ");
-                lcd.setCursor(0, 1);
-                lcd.print(Ethernet.gatewayIP());
-                changeScreen = 2;
-                delay(2000);
-            } else if (changeScreen == 2) {
-                lcd.clear();
-                lcd.setCursor(0, 0);
-               // lcd.print(Ethernet.gatewayIP());
-                lcd.print("Subnetmask is ");
-                lcd.setCursor(0, 1);
-                lcd.print(Ethernet.subnetMask());
-                changeScreen = 0;
-                delay(2000);
-            }
+    ICMPEchoReply echoReply = ping(pingAddr, 4);
+
+    if (echoReply.status == SUCCESS)  {
+        sprintf(buffer,
+              "Reply[%d] from: %d.%d.%d.%d: bytes=%d time=%ldms TTL=%d",
+              echoReply.data.seq,
+              echoReply.addr[0],
+              echoReply.addr[1],
+              echoReply.addr[2],
+              echoReply.addr[3],
+              REQ_DATASIZE,
+              millis() - echoReply.data.time,
+              echoReply.ttl);
+        if (changeScreen == 0) {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            lcd.print("Kan op internet!");
+            lcd.setCursor(0, 1);
+            lcd.print(Ethernet.localIP());
+            changeScreen = 1;
+            delay(4000);
+        } else if (changeScreen == 1) {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+           // lcd.print(Ethernet.gatewayIP());
+            lcd.print("Gateway is: ");
+            lcd.setCursor(0, 1);
+            lcd.print(Ethernet.gatewayIP());
+            changeScreen = 2;
+            delay(2000);
+        } else if (changeScreen == 2) {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+           // lcd.print(Ethernet.gatewayIP());
+            lcd.print("Subnetmask is ");
+            lcd.setCursor(0, 1);
+            lcd.print(Ethernet.subnetMask());
+            changeScreen = 0;
+            delay(2000);
+        }
+      }
+      else {
+        sprintf(buffer, "Echo request failed; %d", echoReply.status);
+        if (changeScreen == 0) {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            lcd.print("Geen internet!");
+            lcd.setCursor(0, 1);
+            lcd.print(Ethernet.localIP());
+            changeScreen = 1;
+            delay(4000);
+        } else if (changeScreen == 1) {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+           // lcd.print(Ethernet.gatewayIP());
+            lcd.print("Gateway is: ");
+            lcd.setCursor(0, 1);
+            lcd.print(Ethernet.gatewayIP());
+            changeScreen = 2;
+            delay(2000);
+        } else if (changeScreen == 2) {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+           // lcd.print(Ethernet.gatewayIP());
+            lcd.print("Subnetmask is ");
+            lcd.setCursor(0, 1);
+            lcd.print(Ethernet.subnetMask());
+            changeScreen = 0;
+            delay(2000);
+        }
    }
 
 }
