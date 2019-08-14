@@ -2,6 +2,8 @@
 
 Arduino_project_checking_VLANS
 
+Arduino-tool  to check what VLAN is installed at a certain Wall outlet. 
+
 
 At a IT-servicedesk we have sometime the trouble that we have different VLAN's but the technicians in the factory don't know
 in what of port of the switch they need to plug the ethetnet cable into. Sometimes we needed to go to the factory to see what happens..Till NOW!
