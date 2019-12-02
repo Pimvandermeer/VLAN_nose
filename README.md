@@ -2,7 +2,7 @@
 
 Arduino_project_checking_VLANS
 
-Arduino-tool  to check what VLAN is installed at a certain Wall outlet. 
+Arduino-tool  to check what VLAN is configured at a certain Wall outlet. 
 
 
 At a IT-servicedesk we have sometime the trouble that we have different VLAN's but the technicians in the factory don't know
